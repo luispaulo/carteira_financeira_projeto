@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\BusinessException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,6 +18,15 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*'),
+            fn (Request $request) => $request->is('api/*') || $request->wantsJson(),
         );
+
+        $exceptions->render(function (BusinessException $e, Request $request) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'errors' => $e->getErrors() ?: new stdClass,
+            ], $e->getStatusCode());
+        });
+        
     })->create();
