@@ -22,8 +22,6 @@ docker ps
 docker exec -it cobuccio-app composer install
 ```
 
-```
-
 ## Gerar chave da aplicação
 
 ```bash

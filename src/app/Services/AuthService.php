@@ -9,12 +9,14 @@ use App\Exceptions\BusinessException;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Repositories\WalletRepositoryInterface;
 
 class AuthService
 {
 
     public function __construct(
-        private UserRepositoryInterface $userRepository
+        private UserRepositoryInterface $userRepository,
+        private WalletRepositoryInterface $walletRepository
     ) {}
 
     public function register(UserRegisterDTO $dto): array
@@ -26,6 +28,8 @@ class AuthService
             }
 
             $user = $this->userRepository->create($dto);
+
+            $this->walletRepository->createForUser($user->id);
 
             $token = $user->createToken('api-token')->plainTextToken;
 
