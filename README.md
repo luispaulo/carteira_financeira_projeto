@@ -18,15 +18,10 @@ Verificar containers:
 ```bash
 docker ps
 ```
-
-## Instalar Laravel
-
-Caso o projeto ainda não exista:
-
 ```bash
-docker exec -it cobuccio-app bash
+docker exec -it cobuccio-app composer install
+```
 
-composer create-project laravel/laravel .
 ```
 
 ## Gerar chave da aplicação
@@ -62,7 +57,7 @@ Porta:
 Banco:
 
 ```text
-cobucciodb
+cobucciodb2
 ```
 
 Usuário:
@@ -110,7 +105,7 @@ Senha:
 Banco:
 
 ```text
-cobucciodb
+cobucciodb2
 ```
 
 ## Derrubar ambiente
