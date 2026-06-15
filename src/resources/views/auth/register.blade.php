@@ -28,18 +28,6 @@
         to   { opacity: 1; transform: translateY(0); }
     }
 
-    .login-icon {
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #6366f1, #a855f7);
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.6rem;
-        margin: 0 auto 1.5rem;
-    }
-
     .login-title {
         font-size: 1.6rem;
         font-weight: 700;
@@ -95,27 +83,6 @@
         margin-top: 0.4rem;
     }
 
-    .remember-group {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .remember-group input {
-        accent-color: #6366f1;
-        cursor: pointer;
-        width: 15px;
-        height: 15px;
-    }
-
-    .remember-label {
-        font-size: 0.88rem;
-        color: #64748b;
-        cursor: pointer;
-        user-select: none;
-    }
-
     .btn-login {
         width: 100%;
         padding: 0.85rem;
@@ -149,28 +116,29 @@
         margin-bottom: 1.2rem;
     }
 
-    .auth-footer {
-        margin-top: 1.5rem;
+    .auth-link {
+        display: block;
         text-align: center;
-        font-size: 0.9rem;
+        margin-top: 1.2rem;
+        font-size: 0.88rem;
         color: #64748b;
     }
 
-    .auth-footer a {
+    .auth-link a {
         color: #818cf8;
         text-decoration: none;
         font-weight: 600;
     }
 
-    .auth-footer a:hover {
+    .auth-link a:hover {
         text-decoration: underline;
     }
 </style>
 
 <div class="login-wrapper">
     <div class="login-card">
-        <h2 class="login-title">Bem-vindo</h2>
-        <p class="login-subtitle">Entre na sua conta para acessar o sistema</p>
+        <h2 class="login-title">Criar conta</h2>
+        <p class="login-subtitle">Preencha os dados abaixo para se registrar</p>
 
         @if ($errors->any())
             <div class="alert-error">
@@ -178,8 +146,25 @@
             </div>
         @endif
 
-        <form action="{{ route('login') }}" method="POST">
+        <form action="{{ route('register') }}" method="POST">
             @csrf
+
+            <div class="form-group">
+                <label for="name" class="form-label">Nome completo</label>
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    class="form-control"
+                    value="{{ old('name') }}"
+                    placeholder="Seu nome"
+                    required
+                    autofocus
+                >
+                @error('name')
+                    <span class="input-error">{{ $message }}</span>
+                @enderror
+            </div>
 
             <div class="form-group">
                 <label for="email" class="form-label">E-mail</label>
@@ -191,7 +176,6 @@
                     value="{{ old('email') }}"
                     placeholder="seu@email.com"
                     required
-                    autofocus
                 >
                 @error('email')
                     <span class="input-error">{{ $message }}</span>
@@ -205,7 +189,7 @@
                     name="password"
                     id="password"
                     class="form-control"
-                    placeholder="••••••"
+                    placeholder="Mínimo 8 caracteres"
                     required
                 >
                 @error('password')
@@ -213,18 +197,24 @@
                 @enderror
             </div>
 
-            <div class="remember-group">
-                <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                <label for="remember" class="remember-label">Lembrar de mim</label>
+            <div class="form-group">
+                <label for="password_confirmation" class="form-label">Confirmar senha</label>
+                <input
+                    type="password"
+                    name="password_confirmation"
+                    id="password_confirmation"
+                    class="form-control"
+                    placeholder="Repita a senha"
+                    required
+                >
             </div>
 
-            <button type="submit" class="btn-login">Entrar</button>
+            <button type="submit" class="btn-login">Criar conta</button>
         </form>
 
-        <div class="auth-footer">
-            Não tem uma conta? <a href="{{ route('register') }}">Criar Conta</a>
-        </div>
-
+        <span class="auth-link">
+            Já tem uma conta? <a href="{{ route('login') }}">Entrar</a>
+        </span>
     </div>
 </div>
 @endsection
