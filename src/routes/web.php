@@ -22,4 +22,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/deposit', [DashboardController::class, 'deposit'])->name('deposit');
+    Route::post('/transfer', [DashboardController::class, 'transfer'])->name('transfer');
+    Route::post('/transactions/{id}/reverse', [DashboardController::class, 'reverse'])->name('reverse');
 });
