@@ -20,6 +20,8 @@ class Transaction extends Model
         ];
     }   
 
+    const UPDATED_AT = null;
+
     public function sender(): BelongsTo
     {
         return $this->belongsTo(User::class, 'sender_id');

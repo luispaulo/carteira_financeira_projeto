@@ -26,4 +26,9 @@ class EloquentWalletRepository implements WalletRepositoryInterface
 
         return $wallet->save();
     }
+
+    public function findByUserIdForUpdate(int $userId): ?Wallet
+    {
+        return Wallet::where('user_id', $userId)->lockForUpdate()->first();
+    }
 }

@@ -11,4 +11,6 @@ interface WalletRepositoryInterface
     public function findByUserId(int $userId): ?Wallet;
 
     public function updateBalance(Wallet $wallet, float $amount): bool;
+
+    public function findByUserIdForUpdate(int $userId): ?Wallet;
 }
