@@ -8,11 +8,13 @@ use App\Services\TransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\TransactionResource;
+use App\Services\ReversalService;
 
 class TransactionController extends Controller {
 
     public function __construct(
-        private readonly TransactionService $transactionService
+        private readonly TransactionService $transactionService,
+        private readonly ReversalService $reversalService
     ) {}
 
     public function index(Request $request): JsonResponse
@@ -47,5 +49,15 @@ class TransactionController extends Controller {
             'data' => new TransactionResource($transaction),
         ]);
     }
-    
+
+    public function reverse(Request $request, int $id): JsonResponse {
+        $transaction = $this->transactionService->getTransactionDetail($id, $request->user()->id);
+
+        $reversal = $this->reversalService->reverse($transaction->id);
+
+        return response()->json([
+            'success' => true,
+            'data' => new TransactionResource($reversal),
+        ]);
+    }    
 }
