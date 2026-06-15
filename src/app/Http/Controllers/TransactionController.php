@@ -38,5 +38,14 @@ class TransactionController extends Controller {
             ],
         ]);
     }
+
+    public function show(Request $request, int  $id): JsonResponse {
+        $transaction = $this->transactionService->getTransactionDetail($id, $request->user()->id);
+
+        return response()->json([
+            'success' => true,
+            'data' => new TransactionResource($transaction),
+        ]);
+    }
     
 }
